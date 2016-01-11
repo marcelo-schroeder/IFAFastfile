@@ -1,0 +1,150 @@
+fastlane_version "1.48.0"
+
+default_platform :ios
+
+platform :ios do
+
+  before_all do
+  end
+
+  desc "Runs all tests"
+  lane :test do
+    runAllTests
+  end
+
+  desc "Submits app to TestFlight"
+  desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
+  lane :testflight do |options|
+
+    ensure_git_status_clean
+    ensureGitBranch
+    incrementBuildNumber(options)
+    manageProvisioningProfiles
+    build
+    uploadToTestFlight
+    commitBuildNumberBump
+    addGitTag
+    pushToGitRemote
+
+  end
+
+  desc "Increments patch version number"
+  lane :incrementPatchVersionNumber do
+    increment_version_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+        bump_type: "patch"
+    )
+  end
+
+  desc "Increments minor version number"
+  lane :incrementMinorVersionNumber do
+    increment_version_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+        bump_type: "minor"
+    )
+  end
+
+  desc "Increments major version number"
+  lane :incrementMajorVersionNumber do
+    increment_version_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+        bump_type: "major"
+    )
+  end
+
+  desc "Shows version number"
+  lane :showVersionNumber do
+    get_version_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT']
+    )
+  end
+
+  after_all do |lane|
+  end
+
+  error do |lane, exception|
+    resetGitRepo
+  end
+
+  #################
+  # PRIVATE LANES #
+  #################
+
+  private_lane :ensureGitBranch do
+    ensure_git_branch(
+        branch: ENV['IFA_GIT_BRANCH']
+    )
+  end
+
+  private_lane :incrementBuildNumber do |options|
+    increment_build_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+        build_number: options[:buildNumber]
+    )
+  end
+
+  private_lane :runAllTests do
+    scan(
+        workspace: ENV['IFA_XCODE_WORKSPACE'],
+        scheme: ENV['IFA_XCODE_SCHEME'],
+        skip_slack: true
+    )
+  end
+
+  private_lane :build do
+    gym(
+        workspace: ENV['IFA_XCODE_WORKSPACE'],
+        scheme: ENV['IFA_XCODE_SCHEME'],
+        clean: true
+    )
+  end
+
+  private_lane :uploadToTestFlight do
+    pilot(
+        skip_submission: true,
+        changelog: File.read(ENV['IFA_CHANGELOG'])
+    )
+  end
+
+  private_lane :commitBuildNumberBump do
+    commit_version_bump(
+        message: "Build number bump",
+        xcodeproj: ENV['IFA_XCODE_PROJECT']
+    )
+  end
+
+  private_lane :addGitTag do
+    buildNumber = get_build_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+    add_git_tag(
+        tag: "build-#{buildNumber}"
+    )
+  end
+
+  private_lane :pushToGitRemote do
+    push_to_git_remote(
+      local_branch: ENV['IFA_GIT_BRANCH']
+    )
+  end
+
+  private_lane :manageProvisioningProfiles do
+    sigh(
+      app_identifier: "com.infoaccent.tempotrak"
+    )
+    sigh(
+      app_identifier: "com.infoaccent.tempotrak.TimeAssistantToday"
+    )
+    sigh(
+      app_identifier: "com.infoaccent.tempotrak.watchkitapp"
+    )
+    sigh(
+      app_identifier: "com.infoaccent.tempotrak.watchkitextension"
+    )
+  end
+
+  private_lane :resetGitRepo do
+    reset_git_repo(
+      force: true
+    )
+  end
+
+end
