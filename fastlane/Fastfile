@@ -28,6 +28,11 @@ platform :ios do
 
   end
 
+  desc “Manages provisioning profiles”
+  lane :manageProvisioningProfiles do
+    sigh
+  end
+
   desc "Increments patch version number"
   lane :incrementPatchVersionNumber do
     increment_version_number(
@@ -123,21 +128,6 @@ platform :ios do
   private_lane :pushToGitRemote do
     push_to_git_remote(
       local_branch: ENV['IFA_GIT_BRANCH']
-    )
-  end
-
-  private_lane :manageProvisioningProfiles do
-    sigh(
-      app_identifier: "com.infoaccent.tempotrak"
-    )
-    sigh(
-      app_identifier: "com.infoaccent.tempotrak.TimeAssistantToday"
-    )
-    sigh(
-      app_identifier: "com.infoaccent.tempotrak.watchkitapp"
-    )
-    sigh(
-      app_identifier: "com.infoaccent.tempotrak.watchkitextension"
     )
   end
 
