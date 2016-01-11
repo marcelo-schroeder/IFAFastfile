@@ -68,7 +68,9 @@ platform :ios do
   end
 
   error do |lane, exception|
-    resetGitRepo
+    if lane == :testflight
+        resetGitRepo
+    end
   end
 
   #################
@@ -133,7 +135,8 @@ platform :ios do
 
   private_lane :resetGitRepo do
     reset_git_repo(
-      force: true
+        force: true,
+        disregard_gitignore: true
     )
   end
 
