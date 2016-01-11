@@ -28,7 +28,7 @@ platform :ios do
 
   end
 
-  desc “Manages provisioning profiles using ‘sigh’”
+  desc “Manages provisioning profiles using sigh”
   lane :manageProvisioningProfiles do
     sigh
   end
