@@ -1,5 +1,5 @@
 # IFAFastfile
-Reusable Fastfile for Fastlane.
+Reusable Fastfile for Fastlane with iOS related development lanes.
 
 ##How to import it into your project
 Simply add the following to the top of your own Fastfile:
