@@ -4,19 +4,27 @@ default_platform :ios
 
 platform :ios do
 
-  before_all do
-  end
+    before_all do
+        if lane == :runAllTests || lane == :testflight
+            ensure_git_status_clean
+        end
+    end
+
+    after_all do |lane|
+        if lane == :runAllTests || lane == :testflight
+            resetGitRepo
+        end
+    end
 
   desc "Runs all tests"
   lane :test do
+    ensure_git_status_clean
     runAllTests
   end
 
   desc "Submits app to TestFlight"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
   lane :testflight do |options|
-
-    ensure_git_status_clean
     ensureGitBranch
     incrementBuildNumber(options)
     manageProvisioningProfiles
@@ -25,7 +33,6 @@ platform :ios do
     commitBuildNumberBump
     addGitTag
     pushToGitRemote
-
   end
 
   desc "Manages provisioning profiles using sigh"
@@ -62,15 +69,6 @@ platform :ios do
     get_version_number(
         xcodeproj: ENV['IFA_XCODE_PROJECT']
     )
-  end
-
-  after_all do |lane|
-  end
-
-  error do |lane, exception|
-    if lane == :testflight
-        resetGitRepo
-    end
   end
 
   #################
