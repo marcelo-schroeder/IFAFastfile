@@ -10,21 +10,21 @@ platform :ios do
         else
             puts "Hi Human!"
         end
-        if lane == :runAllTests || lane == :testflight
+        if lane == :test || lane == :testflight
             ensure_git_status_clean
         end
     end
 
     after_all do |lane|
         # In case tests need to have dependencies updated, reset any changes at the end
-        if lane == :runAllTests
+        if lane == :test
             resetGitRepo
         end
     end
 
     error do |lane, exception|
         if is_ci?
-            if lane == :runAllTests || lane == :testflight
+            if lane == :test || lane == :testflight
                 resetGitRepo
             end
         end
