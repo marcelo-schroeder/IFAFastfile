@@ -31,8 +31,11 @@ platform :ios do
     end
 
   desc "Runs all tests"
+  desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :test do
-    ensure_git_status_clean
+    if is_ci?
+        updateDependencies
+    end
     runAllTests
   end
 
@@ -50,9 +53,15 @@ platform :ios do
   end
 
   desc "Manages provisioning profiles using sigh"
+  desc "Override this lane to provide custom provisioning profile management (e.g. app with multiple bundle IDs)"
   lane :manageProvisioningProfiles do
     sigh
   end
+
+    desc "Update dependencies (default behaviour does nothing)"
+    desc "Override this lane to provide custom behaviour (e.g. make sure that certain dependencies are updated to their latest versions)"
+    lane :updateDependencies do
+    end
 
   desc "Increments patch version number"
   lane :incrementPatchVersionNumber do
