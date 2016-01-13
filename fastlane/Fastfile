@@ -67,6 +67,7 @@ platform :ios do
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
         bump_type: "patch"
     )
+	updatePodspecVersionNumber
   end
 
   desc "Increments minor version number"
@@ -75,6 +76,7 @@ platform :ios do
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
         bump_type: "minor"
     )
+	updatePodspecVersionNumber
   end
 
   desc "Increments major version number"
@@ -83,10 +85,11 @@ platform :ios do
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
         bump_type: "major"
     )
+	updatePodspecVersionNumber
   end
 
-  desc "Shows version number"
-  lane :showVersionNumber do
+  desc "Gets version number"
+  lane :getVersionNumber do
     get_version_number(
         xcodeproj: ENV['IFA_XCODE_PROJECT']
     )
@@ -156,6 +159,12 @@ platform :ios do
     reset_git_repo(
         force: true,
         disregard_gitignore: true
+    )
+  end
+
+  private_lane :updatePodspecVersionNumber do
+  	version_bump_podspec(
+    	version_number: getVersionNumber
     )
   end
 
