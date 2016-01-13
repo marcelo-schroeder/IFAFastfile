@@ -33,7 +33,7 @@ platform :ios do
   desc "Runs all tests"
   desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :test do
-    updateDependencies
+    updateDependencies	# Useful for frameworks to make sure build and tests work with the latest version of specified dependencies
     runAllTests
   end
 
