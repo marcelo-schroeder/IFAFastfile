@@ -41,7 +41,6 @@ platform :ios do
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
   lane :submitAppToTestflight do |options|
     ensureGitBranch
-    #updateDependencies
     #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
@@ -59,7 +58,7 @@ platform :ios do
     #updateDependencies
     #runAllTests
     updateVersionNumber(options)
-    commitVersionNumberBump
+    commitNewFrameworkVersionRelease
     addVersionGitTag
   end
 
@@ -143,6 +142,14 @@ platform :ios do
     commit_version_bump(
         message: "Version number bump",
         xcodeproj: ENV['IFA_XCODE_PROJECT']
+    )
+  end
+
+  private_lane :commitNewFrameworkVersionRelease do
+    commit_version_bump(
+        message: "New version release",
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+        force: true,
     )
   end
 
