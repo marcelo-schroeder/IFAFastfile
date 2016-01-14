@@ -58,10 +58,7 @@ platform :ios do
     ensureGitBranch
     #updateDependencies
     #runAllTests
-	ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
-    increment_version_number(
-        xcodeproj: ENV['IFA_XCODE_PROJECT'],
-    )
+    updateVersionNumber(options)
   end
 
   desc "Manages provisioning profiles using sigh"
@@ -75,29 +72,13 @@ platform :ios do
     lane :updateDependencies do
     end
 
-  desc "Increments patch version number"
-  lane :incrementPatchVersionNumber do
+  desc "Updates version number"
+  desc "It also updates the podspec version, if one exists"
+  desc "Optional parameter: versionNumber (if not provided, patch number is incremented by 1)"
+  lane :updateVersionNumber do |options|
+	ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
     increment_version_number(
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
-        bump_type: "patch"
-    )
-	updatePodspecVersionNumber
-  end
-
-  desc "Increments minor version number"
-  lane :incrementMinorVersionNumber do
-    increment_version_number(
-        xcodeproj: ENV['IFA_XCODE_PROJECT'],
-        bump_type: "minor"
-    )
-	updatePodspecVersionNumber
-  end
-
-  desc "Increments major version number"
-  lane :incrementMajorVersionNumber do
-    increment_version_number(
-        xcodeproj: ENV['IFA_XCODE_PROJECT'],
-        bump_type: "major"
     )
 	updatePodspecVersionNumber
   end
