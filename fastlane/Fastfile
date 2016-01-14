@@ -41,24 +41,26 @@ platform :ios do
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
   lane :submitAppToTestflight do |options|
     ensureGitBranch
-    updateDependencies
-    runAllTests
+    #updateDependencies
+    #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
     build
     uploadToTestFlight
     commitBuildNumberBump
-    addGitTag
+    addBuildGitTag
     pushToGitRemote
   end
 
   desc "Release new version of open source framework"
-  desc "Optional parameter: versionNumber (if not provided, patch number is incremented by 1)"
+  desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :releaseFramework do |options|
     ensureGitBranch
     #updateDependencies
     #runAllTests
     updateVersionNumber(options)
+    commitVersionNumberBump
+    addVersionGitTag
   end
 
   desc "Manages provisioning profiles using sigh"
@@ -74,7 +76,7 @@ platform :ios do
 
   desc "Updates version number"
   desc "It also updates the podspec version, if one exists"
-  desc "Optional parameter: versionNumber (if not provided, patch number is incremented by 1)"
+  desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :updateVersionNumber do |options|
 	ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
     increment_version_number(
@@ -137,10 +139,24 @@ platform :ios do
     )
   end
 
-  private_lane :addGitTag do
+  private_lane :commitVersionNumberBump do
+    commit_version_bump(
+        message: "Version number bump",
+        xcodeproj: ENV['IFA_XCODE_PROJECT']
+    )
+  end
+
+  private_lane :addBuildGitTag do
     buildNumber = get_build_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
     add_git_tag(
         tag: "build-#{buildNumber}"
+    )
+  end
+
+  private_lane :addVersionGitTag do
+    versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+    add_git_tag(
+        tag: "v#{versionNumber}"
     )
   end
 
