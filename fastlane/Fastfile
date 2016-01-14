@@ -10,7 +10,7 @@ platform :ios do
         else
             puts "Hi Human!"
         end
-        if lane == :test || lane == :testflight
+        if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
             ensure_git_status_clean
         end
     end
@@ -24,7 +24,7 @@ platform :ios do
 
     error do |lane, exception|
         if is_ci?
-            if lane == :test || lane == :testflight
+            if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
                 resetGitRepo
             end
         end
