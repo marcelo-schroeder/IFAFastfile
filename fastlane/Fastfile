@@ -39,8 +39,9 @@ platform :ios do
 
   desc "Submits app to TestFlight"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
-  lane :testflight do |options|
+  lane :submitAppToTestflight do |options|
     ensureGitBranch
+    runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
     build
@@ -48,6 +49,13 @@ platform :ios do
     commitBuildNumberBump
     addGitTag
     pushToGitRemote
+  end
+
+  desc "Release new version of open source framework"
+  desc "Required parameter: versionNumber"
+  lane :releaseFramework do |options|
+    ensureGitBranch
+    runAllTests
   end
 
   desc "Manages provisioning profiles using sigh"
