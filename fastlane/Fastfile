@@ -134,14 +134,6 @@ platform :ios do
     )
   end
 
-  private_lane :commitNewFrameworkVersionRelease do
-    commit_version_bump(
-        message: "New version release",
-        xcodeproj: ENV['IFA_XCODE_PROJECT'],
-        force: true,
-    )
-  end
-
   private_lane :addBuildGitTag do
     buildNumber = get_build_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
     add_git_tag(
