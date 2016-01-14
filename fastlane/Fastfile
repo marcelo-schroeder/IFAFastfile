@@ -59,7 +59,9 @@ platform :ios do
     #updateDependencies
     #runAllTests
 	ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
-    increment_version_number
+    increment_version_number(
+        xcodeproj: ENV['IFA_XCODE_PROJECT'],
+    )
   end
 
   desc "Manages provisioning profiles using sigh"
