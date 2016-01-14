@@ -51,17 +51,6 @@ platform :ios do
     pushToGitRemote
   end
 
-  desc "Release new version of open source framework"
-  desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
-  lane :releaseFramework do |options|
-    ensureGitBranch
-    #updateDependencies
-    #runAllTests
-    updateVersionNumber(options)
-    commitNewFrameworkVersionRelease
-    addVersionGitTag
-  end
-
   desc "Manages provisioning profiles using sigh"
   desc "Override this lane to provide custom provisioning profile management (e.g. app with multiple bundle IDs)"
   lane :manageProvisioningProfiles do
