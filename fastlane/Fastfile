@@ -4,7 +4,12 @@ default_platform :ios
 
 platform :ios do
 
-    before_all do |lane|
+    before_all do |lane, options|
+        if options[:versionNumber].nil?
+            puts "NIL"
+        else
+            puts "NOT nil"
+        end
         if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
             ensure_git_status_clean
         end
