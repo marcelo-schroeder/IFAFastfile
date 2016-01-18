@@ -4,12 +4,7 @@ default_platform :ios
 
 platform :ios do
 
-    before_all do |lane, options|
-        if options[:versionNumber].nil?
-            puts "NIL"
-        else
-            puts "NOT nil"
-        end
+    before_all do |lane|
         if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
             ensure_git_status_clean
         end
@@ -66,7 +61,9 @@ platform :ios do
   desc "It also updates the podspec version, if one exists"
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :updateVersionNumber do |options|
-	ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
+    if options[:versionNumber].nil?
+		ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
+    end
     increment_version_number(
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
     )
