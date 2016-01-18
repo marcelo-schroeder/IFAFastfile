@@ -5,11 +5,6 @@ default_platform :ios
 platform :ios do
 
     before_all do |lane|
-        if is_ci?
-            puts "I'm a computer"
-        else
-            puts "Hi Human!"
-        end
         if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
             ensure_git_status_clean
         end
