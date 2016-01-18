@@ -80,6 +80,22 @@ platform :ios do
     )
   end
 
+  desc "Release new version of open source framework"
+  desc "Required parameter: gitHubPersonalAccessToken"
+  desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
+  lane :releaseFramework do |options|
+    ensureGitBranch
+    updateDependencies
+    runAllTests
+    updateVersionNumber(options)
+    commitNewFrameworkVersionRelease
+    #addVersionGitTag
+    pushToGitRemote
+    gitMergeIntoRemoteMasterBranch
+    gitHubRelease(options)
+    pod_push
+  end
+
   #################
   # PRIVATE LANES #
   #################
@@ -168,6 +184,26 @@ platform :ios do
     		version_number: getVersionNumber
     	)
   	end
+  end
+
+  private_lane :commitNewFrameworkVersionRelease do
+    sh "git add -A && git commit -m 'New version release'"
+  end
+
+  private_lane :gitMergeIntoRemoteMasterBranch do
+    branchName = ENV['IFA_GIT_BRANCH']
+    sh "git checkout master && git pull origin master && git merge #{branchName} && git push origin master && git checkout #{branchName} && git pull origin #{branchName}"
+  end
+
+  private_lane :gitHubRelease do |options|
+    versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+    ENV['FL_GITHUB_RELEASE_API_TOKEN'] = options[:gitHubPersonalAccessToken]
+    set_github_release(
+      repository_name: ENV['IFA_GITHUB_REPOSITORY'],
+      tag_name: "v#{versionNumber}",
+      description: File.read(ENV['IFA_CHANGELOG']),
+      name: "",
+    )
   end
 
 end
