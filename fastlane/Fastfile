@@ -61,7 +61,7 @@ platform :ios do
   desc "It also updates the podspec version, if one exists"
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :updateVersionNumber do |options|
-    if options[:versionNumber].nil?
+    unless options[:versionNumber].nil?
 		ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
     end
     increment_version_number(
