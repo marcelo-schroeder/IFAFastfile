@@ -67,6 +67,7 @@ platform :ios do
     unless versionNumber.nil? || versionNumber.empty?
 	  	puts "DEBUG2"
 		ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = :versionNumber
+	  	puts "DEBUG3"
     end
     increment_version_number(
         xcodeproj: ENV['IFA_XCODE_PROJECT'],
