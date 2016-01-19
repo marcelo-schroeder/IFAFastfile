@@ -62,11 +62,11 @@ platform :ios do
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :updateVersionNumber do |options|
   	puts "DEBUG1"
-  	versionNumber = options[:versionNumber]
-  	puts "  v#{versionNumber}"
-    unless versionNumber.nil? || versionNumber.empty?
+  	#versionNumber = 
+  	puts "  v#{options[:versionNumber]}"
+    unless options[:versionNumber].nil? || options[:versionNumber].empty?
 	  	puts "DEBUG2"
-		ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = :versionNumber
+		ENV['FL_VERSION_NUMBER_VERSION_NUMBER'] = options[:versionNumber]
 	  	puts "DEBUG3"
     end
     increment_version_number(
