@@ -40,7 +40,7 @@ platform :ios do
     incrementBuildNumber(options)
     manageProvisioningProfiles
     build
-    uploadToTestFlight
+    #uploadToTestFlight
     commitBuildNumberBump
     addBuildGitTag
     pushToGitRemote
