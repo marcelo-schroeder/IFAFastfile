@@ -86,7 +86,6 @@ platform :ios do
     runAllTests
     updateVersionNumber(options)
     commitNewFrameworkVersionRelease
-    #addVersionGitTag
     pushToGitRemote
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
