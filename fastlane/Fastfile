@@ -39,7 +39,7 @@ platform :ios do
     #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
-    build
+    #build
     #uploadToTestFlight
     commitBuildNumberBump
     addBuildGitTag
