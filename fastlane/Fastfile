@@ -99,7 +99,8 @@ platform :ios do
   end
 
   desc "Release new version of open source project"
-  desc "Required parameters: gitHubPersonalAccessToken, versionNumber"
+  desc "Required parameter: gitHubPersonalAccessToken"
+  desc "Optional parameter: versionNumber (if not provided, a file named 'Version.txt' is expected at the project's root directory)"
   lane :releaseOpenSourceProject do |options|
     ensureGitBranch
     gitMergeIntoRemoteMasterBranch
