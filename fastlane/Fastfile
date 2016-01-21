@@ -127,7 +127,7 @@ platform :ios do
 
   private_lane :uploadToTestFlight do
   	puts "Release Notes below:"
-  	puts File.read(ENV['IFA_CHANGELOG']
+  	puts File.read(ENV['IFA_CHANGELOG'])
     pilot(
         skip_submission: true,
         changelog: File.read(ENV['IFA_CHANGELOG'])
