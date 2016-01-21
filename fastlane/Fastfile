@@ -88,8 +88,8 @@ platform :ios do
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :releaseFramework do |options|
     ensureGitBranch
-    updateDependencies
-    runAllTests
+    #updateDependencies
+    #runAllTests
     updateVersionNumber(options)
     commitNewFrameworkVersionRelease
     pushToGitRemote
