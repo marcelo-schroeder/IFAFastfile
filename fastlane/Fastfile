@@ -5,7 +5,7 @@ default_platform :ios
 platform :ios do
 
     before_all do |lane|
-        if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
+        if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject
             ensure_git_status_clean
         end
     end
@@ -19,7 +19,7 @@ platform :ios do
 
     error do |lane, exception|
         if is_ci?
-            if lane == :test || lane == :submitAppToTestflight || lane == :releaseFramework
+            if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject
                 resetGitRepo
             end
         end
@@ -86,7 +86,7 @@ platform :ios do
   desc "Release new version of open source framework"
   desc "Required parameter: gitHubPersonalAccessToken"
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
-  lane :releaseFramework do |options|
+  lane :releaseOpenSourceFramework do |options|
     ensureGitBranch
     #updateDependencies
     #runAllTests
@@ -96,6 +96,14 @@ platform :ios do
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
     pod_push
+  end
+
+  desc "Release new version of open source project"
+  desc "Required parameters: gitHubPersonalAccessToken, versionNumber"
+  lane :releaseOpenSourceProject do |options|
+    ensureGitBranch
+    gitMergeIntoRemoteMasterBranch
+    gitHubRelease(options)
   end
 
   #################
@@ -198,7 +206,11 @@ platform :ios do
   end
 
   private_lane :gitHubRelease do |options|
-    versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+    if options[:versionNumber].nil? || options[:versionNumber].empty?
+    	versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+    else
+    	versionNumber = options[:versionNumber]
+    end
     ENV['FL_GITHUB_RELEASE_API_TOKEN'] = options[:gitHubPersonalAccessToken]
     set_github_release(
       repository_name: ENV['IFA_GITHUB_REPOSITORY'],
