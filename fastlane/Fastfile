@@ -208,10 +208,11 @@ platform :ios do
 
   private_lane :gitHubRelease do |options|
     if options[:versionNumber].nil? || options[:versionNumber].empty?
-    	versionNumber = File.read('../Version.txt')
-    	if versionNumber.nil? || versionNumber.empty?
+      	if File.file?('../Version.txt')
+	    	versionNumber = File.read('../Version.txt')
+      	else
 	    	versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
-    	end
+	  	end
     else
     	versionNumber = options[:versionNumber]
     end
