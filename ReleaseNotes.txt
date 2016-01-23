@@ -1,1 +1,1 @@
-Initial release.
+New lane: tagAndMergeAppStoreRelease
