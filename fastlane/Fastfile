@@ -110,7 +110,7 @@ platform :ios do
 	desc "Tag App Store release and merge it into the master branch"
   	lane :tagAndMergeAppStoreRelease do
     	ensureGitBranch
-    	#addVersionGitTag
+    	addVersionGitTag
     	#pushToGitRemote
     	#gitMergeIntoRemoteMasterBranch
   	end
