@@ -111,7 +111,7 @@ platform :ios do
   	lane :tagAndMergeAppStoreRelease do
     	ensureGitBranch
     	addVersionGitTag
-    	#pushToGitRemote
+    	pushToGitRemote
     	#gitMergeIntoRemoteMasterBranch
   	end
 
