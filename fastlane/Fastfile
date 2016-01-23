@@ -107,6 +107,14 @@ platform :ios do
     gitHubRelease(options)
   end
 
+	desc "Tag App Store release and merge it into the master branch"
+  	lane :tagAndMergeAppStoreRelease do
+    	ensureGitBranch
+    	addVersionGitTag
+    	pushToGitRemote
+    	gitMergeIntoRemoteMasterBranch
+  	end
+
   #################
   # PRIVATE LANES #
   #################
