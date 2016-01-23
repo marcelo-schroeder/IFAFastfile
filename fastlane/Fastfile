@@ -112,7 +112,7 @@ platform :ios do
     	ensureGitBranch
     	addVersionGitTag
     	pushToGitRemote
-    	#gitMergeIntoRemoteMasterBranch
+    	gitMergeIntoRemoteMasterBranch
   	end
 
   #################
