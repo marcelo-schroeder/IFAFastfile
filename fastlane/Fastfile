@@ -5,7 +5,7 @@ default_platform :ios
 platform :ios do
 
     before_all do |lane|
-        if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject
+        if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject || lane == :tagAndMergeAppStoreRelease
             ensure_git_status_clean
         end
     end
@@ -19,7 +19,7 @@ platform :ios do
 
     error do |lane, exception|
         if is_ci?
-            if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject
+            if lane == :test || lane == :submitAppToTestflight || lane == :releaseOpenSourceFramework || lane == :releaseOpenSourceProject || lane == :tagAndMergeAppStoreRelease
                 resetGitRepo
             end
         end
@@ -110,9 +110,9 @@ platform :ios do
 	desc "Tag App Store release and merge it into the master branch"
   	lane :tagAndMergeAppStoreRelease do
     	ensureGitBranch
-    	addVersionGitTag
-    	pushToGitRemote
-    	gitMergeIntoRemoteMasterBranch
+    	#addVersionGitTag
+    	#pushToGitRemote
+    	#gitMergeIntoRemoteMasterBranch
   	end
 
   #################
