@@ -1,1 +1,1 @@
-New lane: tagAndMergeAppStoreRelease
+New lane: buildAppAndTagBuild
