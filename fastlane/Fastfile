@@ -47,24 +47,17 @@ platform :ios do
     afterSubmitAppToTestflight
   end
 
-  desc "Submits app to any app distribution system. Just override the genericUploadApp lane."
+  desc "Builds app and tags build"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
-  lane :submitAppForTesting do |options|
+  lane :buildAppAndTagBuild do |options|
     ensureGitBranch
     #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
     build
-    genericUploadApp
     commitBuildNumberBump
     addBuildGitTag
     pushToGitRemote
-  end
-
-  desc "Uploads app to any distribution system"
-  desc "Override this lane to provide functionality to upload app to any distribution system"
-  lane :genericUploadApp do
-  	# to be overriden
   end
 
   desc "Manages provisioning profiles using sigh"
