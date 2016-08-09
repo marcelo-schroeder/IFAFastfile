@@ -34,8 +34,10 @@ platform :ios do
 
   desc "Submits app to TestFlight"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
+  desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :submitAppToTestflight do |options|
     ensureGitBranch
+    updateDependencies
     #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
@@ -49,8 +51,10 @@ platform :ios do
 
   desc "Builds app and tags build"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
+  desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :buildAppAndTagBuild do |options|
     ensureGitBranch
+    updateDependencies
     #runAllTests
     incrementBuildNumber(options)
     manageProvisioningProfiles
