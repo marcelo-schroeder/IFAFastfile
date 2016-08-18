@@ -132,6 +132,25 @@ platform :ios do
     	gitMergeIntoRemoteMasterBranch
   	end
 
+  desc "Create a new Git branch and push it to the orign"
+  desc "Required parameter: branch"
+    lane :newGitBranch do |options|
+        branch = options[:branch]
+        ensure_git_status_clean
+        sh "git branch #{branch} && git checkout #{branch} && git push origin #{branch}"
+        ensure_git_branch(
+            branch: branch
+        )
+    end
+
+  desc "Merge source branch (after pull from origin) into target branch (followed by push to origin)"
+  desc "Required parameters: sourceBranch and targetBranch"
+    private_lane :mergeGitBranch do |options|
+      sourceBranch = options[:sourceBranch]
+      targetBranch = options[:targetBranch]
+      sh "git checkout #{targetBranch} && git pull origin #{targetBranch} && git merge #{sourceBranch} && git push origin #{targetBranch}"
+    end
+
   #################
   # PRIVATE LANES #
   #################
