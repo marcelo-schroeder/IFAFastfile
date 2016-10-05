@@ -194,14 +194,14 @@ platform :ios do
 
   private_lane :commitBuildNumberBump do
     commit_version_bump(
-        message: "Build number bump",
+        message: "Build number bump [skip ci]",
         xcodeproj: ENV['IFA_XCODE_PROJECT']
     )
   end
 
   private_lane :commitVersionNumberBump do
     commit_version_bump(
-        message: "Version number bump",
+        message: "Version number bump [skip ci]",
         xcodeproj: ENV['IFA_XCODE_PROJECT']
     )
   end
@@ -243,7 +243,7 @@ platform :ios do
   end
 
   private_lane :commitNewFrameworkVersionRelease do
-    sh "git add -A && git commit -m 'New version release'"
+    sh "git add -A && git commit -m 'New version release [skip ci]'"
   end
 
   private_lane :gitMergeIntoRemoteMasterBranch do
