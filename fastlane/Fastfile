@@ -36,7 +36,7 @@ platform :ios do
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
   desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :submitAppToTestflight do |options|
-    ensureGitBranch
+    #ensureGitBranch
     updateDependencies
     #runAllTests
     incrementBuildNumber(options)
@@ -53,7 +53,7 @@ platform :ios do
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
   desc "Optionally override the updateDependencies lane to make sure tests use the latest version of certain dependencies"
   lane :buildAppAndTagBuild do |options|
-    ensureGitBranch
+    #ensureGitBranch
     updateDependencies
     #runAllTests
     incrementBuildNumber(options)
@@ -104,7 +104,7 @@ platform :ios do
   desc "Required parameter: gitHubPersonalAccessToken"
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
   lane :releaseOpenSourceFramework do |options|
-    ensureGitBranch
+    #ensureGitBranch
     #updateDependencies
     #runAllTests
     updateVersionNumber(options)
@@ -119,14 +119,14 @@ platform :ios do
   desc "Required parameter: gitHubPersonalAccessToken"
   desc "Optional parameter: versionNumber (if not provided, a file named 'Version.txt' is expected at the project's root directory)"
   lane :releaseOpenSourceProject do |options|
-    ensureGitBranch
+    #ensureGitBranch
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
   end
 
 	desc "Tag App Store release and merge it into the master branch"
   	lane :tagAndMergeAppStoreRelease do
-    	ensureGitBranch
+    	#ensureGitBranch
     	addVersionGitTag
     	pushToGitRemote
     	gitMergeIntoRemoteMasterBranch
