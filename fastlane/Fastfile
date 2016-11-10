@@ -222,7 +222,7 @@ platform :ios do
 
   private_lane :pushToGitRemote do
     push_to_git_remote(
-      local_branch: ENV['IFA_GIT_BRANCH']
+      remote_branch: ENV['IFA_GIT_BRANCH']
     )
   end
 
