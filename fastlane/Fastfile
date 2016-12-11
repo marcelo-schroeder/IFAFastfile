@@ -71,6 +71,7 @@ platform :ios do
     commitBuildNumberBump
     addBuildGitTag
     pushToGitRemote
+    afterIncrementAndTagBuildNumber
   end
 
   desc "Manages provisioning profiles using sigh"
@@ -87,6 +88,11 @@ platform :ios do
     desc "What to do after app is successfully submitted to TestFlight"
     desc "Override this lane to provide custom behaviour"
     lane :afterSubmitAppToTestflight do
+    end
+
+    desc "What to do after successfully incrementing and tagging the build number"
+    desc "Override this lane to provide custom behaviour"
+    lane :afterIncrementAndTagBuildNumber do
     end
 
   desc "Updates version number"
