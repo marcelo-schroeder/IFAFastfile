@@ -64,6 +64,14 @@ platform :ios do
     pushToGitRemote
   end
 
+  desc "Increments the builder number, commits the change and push it to the Git remote"
+  desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
+  lane :incrementBuildNumberAndPush do |options|
+    incrementBuildNumber(options)
+    commitBuildNumberBump
+    pushToGitRemote
+  end
+
   desc "Manages provisioning profiles using sigh"
   desc "Override this lane to provide custom provisioning profile management (e.g. app with multiple bundle IDs)"
   lane :manageProvisioningProfiles do
