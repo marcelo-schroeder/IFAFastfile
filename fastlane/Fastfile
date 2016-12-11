@@ -64,11 +64,12 @@ platform :ios do
     pushToGitRemote
   end
 
-  desc "Increments the builder number, commits the change and push it to the Git remote"
+  desc "Increments the builder number and tags the build"
   desc "Optional parameter: buildNumber (if not provided, build number is incremented by 1)"
-  lane :incrementBuildNumberAndPush do |options|
+  lane :incrementAndTagBuildNumber do |options|
     incrementBuildNumber(options)
     commitBuildNumberBump
+    addBuildGitTag
     pushToGitRemote
   end
 
