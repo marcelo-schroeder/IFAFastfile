@@ -258,7 +258,7 @@ platform :ios do
   end
 
   private_lane :commitNewFrameworkVersionRelease do
-    sh "git add -A && git commit -m 'New version release [skip ci]'"
+    sh "git add -A && git commit --allow-empty -m 'New version release [skip ci]'"
   end
 
   private_lane :gitMergeIntoRemoteMasterBranch do
