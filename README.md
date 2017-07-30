@@ -4,19 +4,19 @@ Reusable Fastfile for Fastlane with iOS related development lanes. This Fastfile
 This Fastfile automates:
 
 * iOS app releases.
- * Native support for Testflight but it can be integrated with other distribution systems such as HockeyApp.
- * Both Developer and Enterprise accounts supported via Fastlane configuration.
+    * Native support for Testflight but it can be integrated with other distribution systems such as HockeyApp.
+    * Both Developer and Enterprise accounts supported via Fastlane configuration.
 * Open source project releases to Github.
- * Native support for iOS frameworks but it can be extended to other types of projects.
- * Integrated Cocoapods trunk releases.
- * Support for GitHub release notes.
+    * Native support for iOS frameworks but it can be extended to other types of projects.
+    * Integrated Cocoapods trunk releases.
+    * Support for GitHub release notes.
 
 It also supports:
 
 * Automated release tagging using Git tags.
 * Optional dependency management using Cocoapods but it can be used with any other dependency manager.
 
-##How to use it
+## How to use it
 Firstly, if you don't already have one, create a .env file in the same folder as your Fastfile with the following environment variables (these apply to both apps and frameworks):
 
 ```
