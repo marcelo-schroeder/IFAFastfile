@@ -13,6 +13,7 @@ This Fastfile automates:
 
 It also supports:
 
+* Automated unit tests.
 * Automated release tagging using Git tags.
 * Optional dependency management using Cocoapods but it can be used with any other dependency manager.
 
