@@ -16,7 +16,7 @@ It also supports:
 * Automated release tagging using Git tags.
 * Optional dependency management using Cocoapods but it can be used with any other dependency manager.
 
-##How to use it
+## How to use it
 Firstly, if you don't already have one, create a .env file in the same folder as your Fastfile with the following environment variables (these apply to both apps and frameworks):
 
 ```
