@@ -122,7 +122,6 @@ platform :ios do
     #ensureGitBranch
     #updateDependencies
     #runAllTests
-    pod_lib_lint
     updateVersionNumber(options)
     commitNewFrameworkVersionRelease
     pushToGitRemote
