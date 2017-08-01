@@ -127,9 +127,7 @@ platform :ios do
     pushToGitRemote
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
-    pod_push(
-    	verbose: true
-    )
+    pod_push
   end
 
   desc "Release new version of open source project"
