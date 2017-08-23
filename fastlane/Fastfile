@@ -201,17 +201,16 @@ platform :ios do
   end
 
   private_lane :uploadToTestFlight do
-    changeLog = File.read(ENV['IFA_CHANGELOG'])
-    if changeLog.nil? || changeLog.empty?
-      pilot(
-          skip_submission: true,
-      )
+    changeLogFilePath = ENV['IFA_CHANGELOG']
+    if changeLogFilePath.nil? || changeLogFilePath.empty?
+        changeLog = nil
     else
-      pilot(
-          skip_submission: true,
-          changelog: changeLog
-      )
+        changeLog = File.read(changeLogFilePath)
     end
+    pilot(
+        skip_submission: true,
+        changelog: changeLog
+    )
   end
 
   private_lane :commitBuildNumberBump do
