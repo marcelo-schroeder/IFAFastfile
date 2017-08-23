@@ -201,10 +201,17 @@ platform :ios do
   end
 
   private_lane :uploadToTestFlight do
-    pilot(
-        skip_submission: true,
-        changelog: File.read(ENV['IFA_CHANGELOG'])
-    )
+    changeLog = File.read(ENV['IFA_CHANGELOG'])
+    if changeLog.nil? || changeLog.empty?
+      pilot(
+          skip_submission: true,
+      )
+    else
+      pilot(
+          skip_submission: true,
+          changelog: changeLog
+      )
+    end
   end
 
   private_lane :commitBuildNumberBump do
@@ -268,13 +275,13 @@ platform :ios do
 
   private_lane :gitHubRelease do |options|
     if options[:versionNumber].nil? || options[:versionNumber].empty?
-      	if File.file?('../Version.txt')
-	    	versionNumber = File.read('../Version.txt')
-      	else
-	    	versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
-	  	end
+      if File.file?('../Version.txt')
+        versionNumber = File.read('../Version.txt')
+      else
+        versionNumber = get_version_number(xcodeproj: ENV['IFA_XCODE_PROJECT'])
+      end
     else
-    	versionNumber = options[:versionNumber]
+      versionNumber = options[:versionNumber]
     end
     ENV['FL_GITHUB_RELEASE_API_TOKEN'] = options[:gitHubPersonalAccessToken]
     set_github_release(
