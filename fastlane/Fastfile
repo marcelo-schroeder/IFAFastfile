@@ -118,6 +118,7 @@ platform :ios do
   desc "Release new version of open source framework"
   desc "Required parameter: gitHubPersonalAccessToken"
   desc "Optional parameter: versionNumber (if not provided, patch version number is incremented by 1)"
+  desc "Optional parameter: allowPodPushWarnings (if not provided, default is false)"
   lane :releaseOpenSourceFramework do |options|
     #ensureGitBranch
     #updateDependencies
@@ -127,7 +128,14 @@ platform :ios do
     pushToGitRemote
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
-    pod_push
+    if options[:allowPodPushWarnings].nil? || options[:allowPodPushWarnings].empty?
+      allowPodPushWarnings = false
+    else
+      allowPodPushWarnings = options[:allowPodPushWarnings]
+    end
+    pod_push(
+      allow_warnings: allowPodPushWarnings
+    )
   end
 
   desc "Release new version of open source project"
