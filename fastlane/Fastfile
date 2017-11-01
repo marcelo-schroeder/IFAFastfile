@@ -128,7 +128,7 @@ platform :ios do
     pushToGitRemote
     gitMergeIntoRemoteMasterBranch
     gitHubRelease(options)
-    if options[:allowPodPushWarnings].nil? || options[:allowPodPushWarnings].empty?
+    if options[:allowPodPushWarnings].nil?
       allowPodPushWarnings = false
     else
       allowPodPushWarnings = options[:allowPodPushWarnings]
