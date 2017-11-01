@@ -133,8 +133,14 @@ platform :ios do
     else
       allowPodPushWarnings = options[:allowPodPushWarnings]
     end
+    if File.file?('../.swift-version')
+      swiftVersion = File.read('../.swift-version')
+    else
+      swiftVersion = nil
+    end
     pod_push(
-      allow_warnings: allowPodPushWarnings
+      allow_warnings: allowPodPushWarnings,
+      swift_version: swiftVersion
     )
   end
 
